@@ -9,7 +9,7 @@ COPY . /code/app
 
 RUN pip install --no-cache-dir --upgrade -r app/requirements.txt
 
-RUN useradd --create-home fastapi_service
+RUN useradd --create-home fastapi-service
 USER fastapi-service
 
 ENV PYTHONFAULTHANDLER=1
