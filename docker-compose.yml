@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  database_service:
+    build:
+      context: ./database_service/
+    environment:
+      - test=test_value
+    volumes:
+      - persistent-volume:/data/
+    ports:
+      - "3360:3360"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  fastapi_service:
+    build:
+      context: fastapi_service/
+    volumes:
+      - persistent-volume:/data/
+    ports:
+      - '8000:3000'
+    depends_on:
+      database_service:
+        condition: service_healthy
+
+  flask_service:
+    build:
+      context: flask_service/
+    volumes:
+      - persistent-volume:/data/
+    ports:
+      - '8001:5001'
+    depends_on:
+      database_service:
+        condition: service_healthy
+
+volumes:
+  persistent-volume:
