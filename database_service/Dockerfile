@@ -1,0 +1,8 @@
+FROM postgres:13.4
+
+ENV POSTGRES_USER=user_pg
+ENV POSTGRES_PASSWORD="thisisasecurepassword"
+ENV POSTGRES_DB=db_pg
+ENV PGPORT=3360
+
+EXPOSE 3360
